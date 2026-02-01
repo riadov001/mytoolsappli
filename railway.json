@@ -1,0 +1,26 @@
+{
+  "project": {
+    "name": "rest-express"
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "5000",
+    "SESSION_SECRET": "une-chaîne-secrète-forte",
+    "services.database": {
+      "type": "postgresql",
+      "host": "yamanote.proxy.rlwy.net",
+      "port": 26499,
+      "database": "railway",
+      "user": "postgres",
+      "password": "VHvloEdEUkqasRNpOgJtvBVwAwGnPupH",
+      "sslmode": "require",
+      "DATABASE_URL": "postgresql://postgres:VHvloEdEUkqasRNpOgJtvBVwAwGnPupH@yamanote.proxy.rlwy.net:26499/railway?sslmode=require"
+    }
+  },
+  "dev": {
+    "NODE_ENV": "development",
+    "PORT": 5000,
+    "SESSION_SECRET": "une-chaîne-secrète-pour-le-dev",
+    "DATABASE_URL": "postgresql://postgres:VHvloEdEUkqasRNpOgJtvBVwAwGnPupH@yamanote.proxy.rlwy.net:26499/railway?sslmode=require"
+  }
+}
