@@ -5,17 +5,19 @@ import path from "path";
 // Détecte si on est sur Replit
 const isReplit = process.env.REPL_ID !== undefined;
 
+// Plugins Replit uniquement en dev
+let replitPlugins = [];
+if (isReplit) {
+  // Utilisation require pour Node/Vercel
+  const runtimeOverlay = require("@replit/vite-plugin-runtime-error-modal").runtimeErrorOverlay;
+  replitPlugins.push(runtimeOverlay());
+}
+
+// Configuration Vite
 export default defineConfig({
   plugins: [
     react(),
-    // Plugins Replit uniquement en dev sur Replit
-    ...(isReplit
-      ? [
-          (await import("@replit/vite-plugin-runtime-error-modal")).runtimeErrorOverlay(),
-          (await import("@replit/vite-plugin-cartographer")).then((m) => m.cartographer()),
-          (await import("@replit/vite-plugin-dev-banner")).then((m) => m.devBanner()),
-        ]
-      : []),
+    ...replitPlugins,
   ],
   resolve: {
     alias: {
@@ -26,7 +28,7 @@ export default defineConfig({
   },
   root: isReplit ? path.resolve(__dirname, "client") : __dirname,
   build: {
-    outDir: "dist", // Vercel build standard
+    outDir: "dist", // Vercel détecte automatiquement
     emptyOutDir: true,
     rollupOptions: {
       input: isReplit ? path.resolve(__dirname, "client/index.html") : path.resolve(__dirname, "index.html"),
